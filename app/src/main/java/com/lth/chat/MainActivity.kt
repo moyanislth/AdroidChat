@@ -13,8 +13,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Column {
-                showMessage()
-                showMessage()
+                ShowMessage()
+                ShowMessage()
+                ShowMessage()
             }
         }
     }
@@ -22,11 +23,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun showMessage() {
+fun ShowMessage() {
     MessageCard(Message().apply {
+        date = "2021-09-01"
         sender = "张三"
         text = "你好"
-        time = "2021-10-10"
         isMe = false
     })
 }
