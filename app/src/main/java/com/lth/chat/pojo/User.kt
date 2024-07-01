@@ -6,4 +6,5 @@ class User {
     val id: Int = random().toInt()
     val account = ""
     var username: String = ""
+    var password: String = ""
 }

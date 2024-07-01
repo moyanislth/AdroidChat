@@ -35,8 +35,6 @@ class LoginActivity : ComponentActivity() {
         }
     }
 
-
-
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun MyScreen() {
@@ -82,7 +80,8 @@ class LoginActivity : ComponentActivity() {
                 Button(
                     onClick = {
                         /*实现登录逻辑*/
-                        val userDao = AppDatabase.getInstance(context).userDao()
+                        val db = AppDatabase.getInstance(context)
+                        val userDao = db.userDao()
                         val user = userDao.queryByUsername(username.value)
 
 
