@@ -108,10 +108,10 @@ class SignUpActivity : ComponentActivity() {
 
                         Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show()
                         finish()
-                        // 清空输入框内容
-                        username.value = ""
-                        account.value = ""
-                        password.value = ""
+//                        // 清空输入框内容
+//                        username.value = ""
+//                        account.value = ""
+//                        password.value = ""
 
                     },
                     modifier = Modifier

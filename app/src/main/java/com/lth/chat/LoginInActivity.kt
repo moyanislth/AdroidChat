@@ -110,6 +110,8 @@ class LoginActivity : ComponentActivity() {
                 }
                 CustomTextWithUnderline {
                     startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
+                    password.value = ""
+                    username.value = ""
                 }
             }
         }
