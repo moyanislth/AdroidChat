@@ -1,25 +1,26 @@
 package com.lth.chat
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -49,28 +50,44 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    @OptIn(ExperimentalMaterial3Api::class)
+    // 底部导航栏
     @Composable
-    fun QQHomePage(navController: NavHostController) {
+    private fun BottomBar() {
+        TODO("Not yet implemented")
+
+    }
+
+    // 中间信息展示列表
+    @Composable
+    private fun BloomRowBanner() {
+        TODO("Not yet implemented")
+
+    }
+
+    // 中间信息展示列表
+    @Composable
+    private fun BloomInfoList() {
+        TODO("Not yet implemented")
+
+    }
+
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+    @Composable
+    fun HomePage(navController: NavHostController) {
         Scaffold(
             topBar = {
-                TopAppBar(title = { Text("主页") }) // 顶部导航栏
-            },
-            bottomBar = {
-//                // 底部导航栏
-//                QQBottomNav(navController)
-                Text(text = "底部导航栏") // 底部导航栏
+                // 顶部标题栏
+                Text("Chat", modifier = Modifier.padding(16.dp))
             }
         ) {
-            // 使用LazyColumn创建可滑动的全屏消息列表
-            LazyColumn(modifier = Modifier
-                .fillMaxSize()
-                .padding(it)) {
-                // 这里你可以添加消息列表的item
-                items(count = 20) { index ->
-                    MessageItem("消息内容 $index") // 假设的MessageItem，你需要自定义这个组件
-                }
+            // 列表
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+            ) {
+                // 消息列表
+                MessageItem("Hello, World!")
             }
         }
     }
@@ -96,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         val navController = rememberNavController()
         // 启动Compose界面
         setContent {
-            QQHomePage(navController)
+            HomePage(navController)
         }
     }
 }
