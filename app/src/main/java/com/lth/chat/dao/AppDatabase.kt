@@ -49,10 +49,10 @@ data class User(
     // 主键id，自增
     @PrimaryKey(autoGenerate = true) val id: Int,
     // 昵称和账号唯一
-    @ColumnInfo(name = "account", collate = ColumnInfo.BINARY) val account: String,
-    @ColumnInfo(name = "username", collate = ColumnInfo.BINARY) val username: String,
+    @ColumnInfo(name = "account", collate = ColumnInfo.BINARY) var account: String,
+    @ColumnInfo(name = "username", collate = ColumnInfo.BINARY) var username: String,
     // 密码
-    val password: String,
+    var password: String,
 )
 
 // 消息表

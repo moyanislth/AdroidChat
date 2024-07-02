@@ -3,9 +3,11 @@ package com.lth.chat
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,7 +21,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.lth.chat.dao.AppDatabase
 import com.lth.chat.ui.theme.ChatTheme
@@ -93,7 +98,8 @@ class LoginActivity : ComponentActivity() {
                         } else {
                             Log.v("LoginActivity", "fail to login")
                             // 登录失败
-                            // 提示用户
+                            // TODO: 显示登录失败的提示
+                            Toast.makeText(context, "登录失败，请检查您的用户名或密码！", Toast.LENGTH_LONG).show()
                         }
                     },
                     modifier = Modifier
@@ -102,7 +108,24 @@ class LoginActivity : ComponentActivity() {
                 ) {
                     Text("Login")
                 }
+                CustomTextWithUnderline {
+                    startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
+                }
             }
         }
+    }
+
+    @Composable
+    fun CustomTextWithUnderline(onClick: () -> Unit) {
+        Text(
+            text = AnnotatedString("注册"),
+            modifier = Modifier
+                .clickable(onClick = onClick)
+                .padding(horizontal = 4.dp), // 根据需要添加内边距
+            style = TextStyle(
+                color = androidx.compose.ui.graphics.Color.Black, // 文本颜色
+                textDecoration = TextDecoration.Underline // 下划线
+            )
+        )
     }
 }
