@@ -4,7 +4,6 @@
 
     <application
         android:allowBackup="false"
-        tools:replace="android:allowBackup"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -12,7 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Chat"
+        tools:replace="android:allowBackup"
         tools:targetApi="31">
+        <activity
+            android:name=".ChatActivity"
+            android:exported="false"
+            android:label="@string/title_activity_chat"
+            android:theme="@style/Theme.Chat" />
         <activity
             android:name=".LoginActivity"
             android:exported="false"

@@ -93,12 +93,12 @@ class LoginActivity : ComponentActivity() {
                         if (user !=null && user.password == password.value) {
                             Log.v("LoginActivity", "success to login")
                             // 登录成功
+                            MainActivity.UserSession.userId = user.id
                             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                             finish()
                         } else {
                             Log.v("LoginActivity", "fail to login")
                             // 登录失败
-                            // TODO: 显示登录失败的提示
                             Toast.makeText(context, "登录失败，请检查您的用户名或密码！", Toast.LENGTH_LONG).show()
                         }
                     },

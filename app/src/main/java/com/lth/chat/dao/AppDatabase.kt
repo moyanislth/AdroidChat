@@ -133,9 +133,17 @@ interface UserDao {
     @Query("SELECT * FROM user WHERE account = :account")
     fun queryByAccount(account: String): User?
 
+    // 模糊查询用户，根据 account 查询用户表，返回 User 对象
+    @Query("SELECT * FROM user WHERE account LIKE :account")
+    fun likelyQueryByAccount(account: String): List<User>
+
     // 查询用户，根据 username 查询用户表，返回 User 对象
     @Query("SELECT * FROM user WHERE username = :username")
     fun queryByUsername(username: String): User?
+
+    // 查询用户，根据 id 查询用户表，返回 User 对象
+    @Query("SELECT * FROM user WHERE id = :id")
+    fun queryById(id: Int): User?
 
     // 删除用户，根据 account 删除用户表中的用户
     @Query("DELETE FROM user WHERE account = :account")
