@@ -26,10 +26,8 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lth.chat.dao.AppDatabase
-import com.lth.chat.pojo.User
 import com.lth.chat.ui.theme.ChatTheme
 
 class SignUpActivity : ComponentActivity() {

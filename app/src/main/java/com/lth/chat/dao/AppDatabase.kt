@@ -105,8 +105,9 @@ data class Friend(
 @Entity(tableName = "group_chat_users")
 data class GroupChatUser(
     @PrimaryKey(autoGenerate = true) val id: Int,
-    val groupChatId: Int,
-    val userId: Int
+    @ColumnInfo(name = "groupChatId") val groupChatId: Int, // 添加注解
+    @ColumnInfo(name = "userId") val userId: Int // 添加注解
+
     // 其他属性...
 )
 
@@ -215,7 +216,11 @@ interface GroupChatDao {
     @Query("SELECT * FROM group_chats")
     fun queryAll(): List<GroupChat>
 
-    // 根据用户ID列表查询用户所在的群聊
+    // 查询群聊
+    @Query("SELECT * FROM group_chats WHERE id = :id")
+    fun queryById(id: Int): GroupChat?
+
+//    // 查询用户所在群聊
 //    @Query("SELECT * FROM group_chats WHERE id IN (SELECT groupChatId FROM group_chat_users WHERE userId = :userId)")
 //    fun queryByUserId(userId: Int): List<GroupChat>
 

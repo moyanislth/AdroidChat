@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -63,11 +64,6 @@ class ChatActivity : ComponentActivity() {
         }
     }
 
-    // 启用全屏（无状态栏和导航栏）
-    private fun enableEdgeToEdge() {
-        // 这里可以添加代码来启用全屏模式，例如使用 WindowManager
-    }
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     @OptIn(ExperimentalMaterial3Api::class)
@@ -108,7 +104,6 @@ class ChatActivity : ComponentActivity() {
         }
     }
 
-
     // 假设的 ChatMessageList 组件，用于展示消息列表
     @Composable
     fun ChatMessageList() {
@@ -121,9 +116,9 @@ class ChatActivity : ComponentActivity() {
             for (message in messages) {
                 item {
                     if (MainActivity.UserSession.userId == message.senderId.toInt())
-                        MessageCard(message = message, isSender = true)
+                        MessageCard(message = message, isSender = true,context = context)
                     else
-                        MessageCard(message = message, isSender = false)
+                        MessageCard(message = message, isSender = false,context = context)
                 }
             }
         }
