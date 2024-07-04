@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.lth.chat.dao.AppDatabase
 import com.lth.chat.dao.Message
+import com.lth.chat.ui.MessageCard
 import com.lth.chat.ui.theme.ChatTheme
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -48,6 +49,7 @@ class ChatActivity : ComponentActivity() {
     private val context = this
     private val senderId by lazy { intent.getIntExtra("UserSession", 0) }
     private val receiverId by lazy { intent.getIntExtra("friendId", 0) }
+    private val db by lazy { AppDatabase.getInstance(this) }
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -110,20 +112,27 @@ class ChatActivity : ComponentActivity() {
     // 假设的 ChatMessageList 组件，用于展示消息列表
     @Composable
     fun ChatMessageList() {
+        val db = AppDatabase.getInstance(LocalContext.current)
+        val messages = db.messageDao().queryBySenderAndReceiver(senderId.toString(), receiverId.toString())
+
         // 这里将展示消息列表，可以使用 LazyColumn 等组件来实现滚动列表
         LazyColumn {
             // 这里可以添加消息列表的内容
-
+            for (message in messages) {
+                item {
+                    if (MainActivity.UserSession.userId == message.senderId.toInt())
+                        MessageCard(message = message, isSender = true)
+                    else
+                        MessageCard(message = message, isSender = false)
+                }
+            }
         }
     }
 
-    // 发送消息的输入区域
     @OptIn(DelicateCoroutinesApi::class)
-    @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun SendMessageBar() {
         var messageText by remember { mutableStateOf("") }
-        val db = AppDatabase.getInstance(LocalContext.current)
 
         Row(
             modifier = Modifier
@@ -131,41 +140,35 @@ class ChatActivity : ComponentActivity() {
                 .background(MaterialTheme.colorScheme.surface)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            // 文本输入框
             TextField(
-                value = "", // 初始为空
-                onValueChange = {
-                        newValue -> messageText = newValue
-                },
+                value = messageText, // 绑定 TextField 的 value 与 messageText
+                onValueChange = { newValue -> messageText = newValue }, // 更新状态以反映用户输入
                 placeholder = { Text("输入消息内容...") },
                 modifier = Modifier
                     .weight(1f) // 占据大部分空间
                     .padding(end = 8.dp), // 右侧间距
                 textStyle = MaterialTheme.typography.bodyLarge,
+                singleLine = true // 确保文本框是单行的
+            )
 
-                )
-
-            // 发送按钮
             Button(
                 onClick = {
-                    // 在协程中执行数据库插入操作
-                    GlobalScope.launch(Dispatchers.IO) {
-                        val message = Message(
-                            id = 0, // ID 通常是自增主键，这里假设数据库会自动处理
-                            senderId = senderId.toString(),
-                            receiverId = receiverId.toString(),
-                            content = messageText,
-                            timestamp = java.util.Date() // 使用 java.time.Instant 替代 java.util.Date
-                        )
+                    if (messageText!=""){
+                        GlobalScope.launch(Dispatchers.IO) {
+                            val message = Message(
+                                id = 0,
+                                senderId = senderId.toString(),
+                                receiverId = receiverId.toString(),
+                                content = messageText,
+                                timestamp = java.util.Date() // 考虑使用 java.time.Instant
+                            )
+                            val messageDao = db.messageDao()
+                            messageDao.insert(message)
 
-                        val messageDao = db.messageDao()
-                        messageDao.insert(message)
-
-                        // 操作完成后回到主线程更新 UI
-                        withContext(Dispatchers.Main) {
-                            // 清空文本框
-                            messageText = ""
-                            // 其他 UI 更新逻辑...
+                            withContext(Dispatchers.Main) {
+                                messageText = "" // 清空文本框
+                                // 可以添加其他 UI 更新逻辑
+                            }
                         }
                     }
                 },

@@ -167,7 +167,7 @@ interface MessageDao {
     fun insert(message: Message)
 
     // 查询一对一消息
-    @Query("SELECT * FROM message WHERE senderId = :senderId AND receiverId = :receiverId ORDER BY timestamp ASC")
+    @Query("SELECT * FROM message WHERE (senderId = :senderId AND receiverId = :receiverId) or (senderId = :receiverId AND receiverId = :senderId) ORDER BY timestamp ASC")
     fun queryBySenderAndReceiver(senderId: String, receiverId: String): List<Message>
 
     // 查询群聊消息
